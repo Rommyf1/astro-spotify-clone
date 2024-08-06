@@ -1,0 +1,19 @@
+---
+import SideMenuItem from "./SideMenuItem.astro";
+import Home from "../icons/Home.astro";
+//import Library from "../icons/Library.astro";
+import Search from "../icons/Search.astro";
+---
+
+<nav class="bg-zinc-900 bg-opacity-60 rounded-md">
+  <ul class="flex flex-col gap-1">
+    <SideMenuItem href="/">
+      <Home /> Home
+    </SideMenuItem>
+    <SideMenuItem href="#">
+      <Search /> Buscar
+    </SideMenuItem>
+  </ul>
+
+  <div></div>
+</nav>
