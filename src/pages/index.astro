@@ -1,5 +1,22 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { playlists } from "../lib/data";
+import PlaylistCard from "../components/PlaylistCard.astro";
 ---
 
-<Layout title="Welcome to Astro" />
+<Layout title="Welcome to Astro">
+  <section class="relative bg-green-600/60">
+    <!-- Header Section -->
+    <header class="z-10 relative">
+      <h1 class="text-2xl py-6 px-4">Buenos días</h1>
+      <ul class="flex justify-evenly flex-wrap gap-4 p-4">
+        {playlists.map((playlist) => <PlaylistCard playlist={playlist} />)}
+      </ul>
+    </header>
+    <!-- Color Gradient -->
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-950/80"
+    >
+    </div>
+  </section>
+</Layout>
