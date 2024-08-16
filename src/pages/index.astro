@@ -2,13 +2,14 @@
 import Layout from "../layouts/Layout.astro";
 import { playlists } from "../lib/data";
 import PlaylistCard from "../components/PlaylistCard.astro";
+import Greetings from "../components/Greetings.astro";
 ---
 
 <Layout title="Welcome to Astro">
   <section class="relative bg-green-600/60">
     <!-- Header Section -->
     <header class="z-10 relative">
-      <h1 class="text-2xl py-6 px-4">Buenos días</h1>
+      <Greetings />
       <ul class="flex justify-evenly flex-wrap gap-4 p-4">
         {playlists.map((playlist) => <PlaylistCard playlist={playlist} />)}
       </ul>
