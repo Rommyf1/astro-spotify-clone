@@ -1,0 +1,58 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { type Playlist } from "../../lib/data";
+import { allPlaylists, songs } from "../../lib/data";
+
+const { id: playlistSelected } = Astro.params;
+
+const playlist: Playlist = allPlaylists.find(
+  (playlist) => playlist.id === playlistSelected
+);
+
+const { cover, title, artists } = playlist;
+const artistsString = artists.join(", ");
+
+const playlistSongs = songs.filter(
+  (song) => song.albumId === playlist?.albumId
+);
+---
+
+<Layout title={title}>
+  <section class="relative bg-green-600/60">
+    <header
+      class="relative z-10 flex items-center gap-8 p-4"
+      transition:name={`playlist ${playlistSelected} box`}
+    >
+      <picture class="w-36 h-36 aspect-square">
+        <img
+          src={cover}
+          alt={`Cover of ${title} by ${artistsString}`}
+          transition:name={`playlist ${playlistSelected} image`}
+        />
+      </picture>
+
+      <article class="flex-1 flex flex-col gap-4">
+        <div>
+          <span>Playlist</span>
+          <h2
+            class="text-4xl font-extrabold"
+            transition:name={`playlist ${playlistSelected} title`}
+          >
+            {title}
+          </h2>
+        </div>
+        <div>
+          <span
+            class="text-xs"
+            transition:name={`playlist ${playlistSelected} artists`}
+            >{artistsString}</span
+          >
+        </div>
+      </article>
+    </header>
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-950/80"
+    >
+    </div>
+  </section>
+</Layout>
