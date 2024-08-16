@@ -38,7 +38,7 @@ export function Player() {
 
   const handlePlay = () => {
     if (isPlaying) {
-      audioRef.current.stop();
+      audioRef.current.pause();
     } else {
       audioRef.current.src = `/music/1/01.mp3`;
       audioRef.current.play();
