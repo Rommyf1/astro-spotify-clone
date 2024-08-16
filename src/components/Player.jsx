@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 const PlayButton = ({ buttonColor }) => {
   return (
@@ -35,12 +35,14 @@ const PauseButton = ({ buttonColor }) => {
 export function Player() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef();
+  useEffect(() => {
+    audioRef.current.src = `/music/1/01.mp3`;
+  }, []);
 
   const handlePlay = () => {
     if (isPlaying) {
       audioRef.current.pause();
     } else {
-      audioRef.current.src = `/music/1/01.mp3`;
       audioRef.current.play();
     }
     setIsPlaying(!isPlaying);
