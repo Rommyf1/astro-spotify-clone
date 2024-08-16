@@ -16,13 +16,22 @@ const artistsString = artists.join(", ");
   <a
     class="w-36 p-2 flex flex-col justify-evenly gap-4 text-zinc-300 truncate overflow-hidden shadow-lg bg-zinc-500/30 rounded-md hover:bg-zinc-700/40 hover:shadow-xl hover:text-white"
     href={`/playlist/${id}`}
+    transition:name={`playlist ${id} box`}
   >
     <picture class="w-full h-auto aspect-square">
-      <img src={cover} alt={`Cover of ${title} by ${artistsString}`} />
+      <img
+        src={cover}
+        alt={`Cover of ${title} by ${artistsString}`}
+        transition:name={`playlist ${id} image`}
+      />
     </picture>
     <article class="truncate">
-      <h2 class="text-sm font-bold">{title}</h2>
-      <span class="text-xs">{artistsString}</span>
+      <h2 class="text-sm font-bold" transition:name={`playlist ${id} title`}>
+        {title}
+      </h2>
+      <span class="text-xs" transition:name={`playlist ${id} artists`}
+        >{artistsString}</span
+      >
     </article>
   </a>
 </li>
