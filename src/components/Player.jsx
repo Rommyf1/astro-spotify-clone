@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 
-const PlayButton = ({ buttonColor }) => {
+export const PlayButton = ({ buttonColor }) => {
   return (
     <svg
       //className={className}
@@ -16,7 +16,7 @@ const PlayButton = ({ buttonColor }) => {
   );
 };
 
-const PauseButton = ({ buttonColor }) => {
+export const PauseButton = ({ buttonColor }) => {
   return (
     <svg
       //className={className}
