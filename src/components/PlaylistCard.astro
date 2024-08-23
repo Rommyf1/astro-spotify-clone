@@ -13,14 +13,16 @@ const { id, title, cover, color, artists, albumId } = playlist;
 const artistsString = artists.join(", ");
 ---
 
-<li class="group relative">
+<li
+  class="group relative shadow-lg bg-zinc-500/30 rounded-md hover:bg-zinc-700/40 hover:shadow-xl"
+>
   <div
     class="absolute right-4 bottom-20 translate-y-2 transition-all duration-500 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 z-10"
   >
     <CardPlayButton id={id} client:visible />
   </div>
   <a
-    class="w-36 p-2 flex flex-col justify-evenly gap-4 text-zinc-300 truncate overflow-hidden shadow-lg bg-zinc-500/30 rounded-md hover:bg-zinc-700/40 hover:shadow-xl hover:text-white"
+    class="w-36 p-2 flex flex-col justify-evenly gap-4 text-zinc-300 truncate overflow-hidden rounded-md hover:text-white"
     href={`/playlist/${id}`}
     transition:name={`playlist ${id} box`}
   >
