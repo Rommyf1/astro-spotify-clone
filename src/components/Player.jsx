@@ -34,19 +34,27 @@ export const PauseButton = ({ buttonColor }) => {
 };
 
 export function Player() {
-  //const [isPlaying, setIsPlaying] = useState(false);
-  const { isPlaying, setIsPlaying } = usePlayerStore((state) => state);
+  const { isPlaying, setIsPlaying, currentMusic } = usePlayerStore(
+    (state) => state
+  );
   const audioRef = useRef();
-  useEffect(() => {
-    audioRef.current.src = `/music/1/01.mp3`;
-  }, []);
 
-  const handlePlay = () => {
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
+  useEffect(() => {
+    if (!currentMusic.song) return;
+    isPlaying ? audioRef.current.play() : audioRef.current.pause();
+  }, [isPlaying]);
+
+  useEffect(() => {
+    const { song, playlist } = currentMusic;
+    if (song) {
+      const newSong = `/music/${playlist?.id}/0${song.id}.mp3`;
+      audioRef.current.src = newSong;
       audioRef.current.play();
     }
+  }, [currentMusic]);
+
+  const handlePlay = () => {
+    if (!currentMusic.song) return;
     setIsPlaying(!isPlaying);
   };
 
