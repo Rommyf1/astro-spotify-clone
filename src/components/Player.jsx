@@ -1,4 +1,5 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
+import { usePlayerStore } from "../store/playerStore";
 
 export const PlayButton = ({ buttonColor }) => {
   return (
@@ -33,7 +34,8 @@ export const PauseButton = ({ buttonColor }) => {
 };
 
 export function Player() {
-  const [isPlaying, setIsPlaying] = useState(false);
+  //const [isPlaying, setIsPlaying] = useState(false);
+  const { isPlaying, setIsPlaying } = usePlayerStore((state) => state);
   const audioRef = useRef();
   useEffect(() => {
     audioRef.current.src = `/music/1/01.mp3`;
