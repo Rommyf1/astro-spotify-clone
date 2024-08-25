@@ -33,6 +33,22 @@ export const PauseButton = ({ buttonColor }) => {
   );
 };
 
+export function CurrentSong({ image, title, artists }) {
+  const songArtists = artists?.join(", ");
+
+  return (
+    <article className="flex gap-4">
+      <picture className="w-12 h-12">
+        <img className="rounded-lg shadow-lg" src={image} alt={title} />
+      </picture>
+      <div className="flex flex-col justify-center">
+        <h3 className="text-sm dark:text-white">{title}</h3>
+        <span className="text-xs dark:text-white/80">{songArtists}</span>
+      </div>
+    </article>
+  );
+}
+
 export function Player() {
   const { isPlaying, setIsPlaying, currentMusic } = usePlayerStore(
     (state) => state
@@ -59,11 +75,13 @@ export function Player() {
   };
 
   return (
-    <section className="w-full flex h-full justify-between items-center px-8">
-      <div>Canción Actual</div>
+    <section className="w-full flex h-full justify-between items-center px-4">
+      <div>
+        <CurrentSong {...currentMusic.song} />
+      </div>
       <div className="flex gap-4 items-center">
         <button
-          className="bg-white p-2 rounded-full dark:bg-zinc-500/30 dark:text-zinc-200"
+          className="bg-white p-4 rounded-full dark:bg-zinc-500/30 dark:text-zinc-200"
           onClick={handlePlay}
         >
           {isPlaying ? <PauseButton /> : <PlayButton />}
