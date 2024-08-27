@@ -22,7 +22,6 @@ export default function CardPlayButton({ id }) {
       song: playlistSongs[0],
       songs: playlistSongs,
     });
-    console.log({ actualPlaylist, playlistSongs });
   };
 
   return (
