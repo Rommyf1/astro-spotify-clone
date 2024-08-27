@@ -1,6 +1,26 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { usePlayerStore } from "../store/playerStore";
 import { Slider } from "./Slider";
+
+// Left Area
+
+export function CurrentSong({ image, title, artists }) {
+  const songArtists = artists?.join(", ");
+
+  return (
+    <article className="flex gap-4">
+      <picture className="w-12 h-12">
+        <img className="rounded-lg shadow-lg" src={image} alt={title} />
+      </picture>
+      <div className="flex flex-col justify-center">
+        <h3 className="text-sm dark:text-white">{title}</h3>
+        <span className="text-xs dark:text-white/80">{songArtists}</span>
+      </div>
+    </article>
+  );
+}
+
+// Center Area
 
 export const PlayButton = ({ buttonColor }) => {
   return (
@@ -34,23 +54,55 @@ export const PauseButton = ({ buttonColor }) => {
   );
 };
 
-export function CurrentSong({ image, title, artists }) {
-  const songArtists = artists?.join(", ");
+function SongControl({ audio: song }) {
+  const [currentTime, setCurrentTime] = useState(0);
+
+  useEffect(() => {
+    song.current.addEventListener("timeupdate", handleTimeUpdate);
+    return () => {
+      song.current.removeEventListener("timeupdate", handleTimeUpdate);
+    };
+  }, []);
+
+  const handleTimeUpdate = () => {
+    setCurrentTime(song.current.currentTime);
+  };
+
+  const formatTime = (time) => {
+    if (time === null) return "00:00";
+    const seconds = Math.floor(time % 60);
+    const minutes = Math.floor(time / 60);
+
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
+
+  const songDuration = song?.current?.duration ?? 0;
 
   return (
-    <article className="flex gap-4">
-      <picture className="w-12 h-12">
-        <img className="rounded-lg shadow-lg" src={image} alt={title} />
-      </picture>
-      <div className="flex flex-col justify-center">
-        <h3 className="text-sm dark:text-white">{title}</h3>
-        <span className="text-xs dark:text-white/80">{songArtists}</span>
-      </div>
-    </article>
+    <div className="flex justify-center gap-2 items-center text-xs">
+      <span className="text-white/70 w-12 text-right">
+        {formatTime(currentTime)}
+      </span>
+      <Slider
+        min={0}
+        max={songDuration}
+        value={[currentTime]}
+        className="w-96"
+        onValueChange={(value) => {
+          const [newCurrentTime] = value;
+          song.current.currentTime = newCurrentTime;
+        }}
+      />
+      <span className="text-white/70">
+        {songDuration ? formatTime(songDuration) : null}
+      </span>
+    </div>
   );
 }
 
-export const VolumeSilence = () => (
+// Right Area
+
+export const VolumeSilenced = () => (
   <svg
     fill="currentColor"
     role="presentation"
@@ -65,7 +117,7 @@ export const VolumeSilence = () => (
   </svg>
 );
 
-export const Volume = () => (
+export const VolumePlaying = () => (
   <svg
     fill="currentColor"
     role="presentation"
@@ -101,7 +153,7 @@ function VolumeControl() {
   return (
     <div className="flex items-center gap-4 text-white">
       <button onClick={handleClick}>
-        {isSilenced ? <VolumeSilence /> : <Volume />}
+        {isSilenced ? <VolumeSilenced /> : <VolumePlaying />}
       </button>
       <Slider
         min={0}
@@ -151,19 +203,20 @@ export function Player() {
 
   return (
     <section className="w-full flex h-full justify-between items-center px-4">
-      <div>
+      <div className="w-[300px]">
         <CurrentSong {...currentMusic.song} />
       </div>
-      <div className="flex gap-4 items-center">
+      <div className="flex flex-col gap-2 items-center">
         <button
-          className="bg-white p-4 rounded-full dark:bg-zinc-500/30 dark:text-zinc-200"
+          className="bg-white p-3 rounded-full dark:bg-zinc-500/30 dark:text-zinc-200"
           onClick={handlePlay}
         >
           {isPlaying ? <PauseButton /> : <PlayButton />}
         </button>
+        <SongControl audio={audioRef} />
         <audio ref={audioRef}></audio>
       </div>
-      <div>
+      <div className="w-[300px] flex flex-row-reverse">
         <VolumeControl />
       </div>
     </section>
