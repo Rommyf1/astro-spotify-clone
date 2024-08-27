@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { usePlayerStore } from "../store/playerStore";
+import { Slider } from "./Slider";
 
 export const PlayButton = ({ buttonColor }) => {
   return (
@@ -54,6 +55,7 @@ export function Player() {
     (state) => state
   );
   const audioRef = useRef();
+  const volumeRef = useRef(1);
 
   useEffect(() => {
     if (!currentMusic.song) return;
@@ -88,7 +90,20 @@ export function Player() {
         </button>
         <audio ref={audioRef}></audio>
       </div>
-      <div>Controles</div>
+      <div>
+        <Slider
+          min={0}
+          max={100}
+          defaultValue={[100]}
+          className="w-24"
+          onValueChange={(value) => {
+            const [actualVolume] = value;
+            const newVolume = actualVolume / 100;
+            volumeRef.current = newVolume;
+            audioRef.current.volume = newVolume;
+          }}
+        />
+      </div>
     </section>
   );
 }
